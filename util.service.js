@@ -1,5 +1,6 @@
 import fs from 'fs'
 import fr from 'follow-redirects'
+import csv from 'csv-parser'
 
 const { http, https } = fr
 
@@ -7,7 +8,26 @@ export const utilService = {
     readJsonFile,
     download,
     httpGet,
+    loadCSV,
     randInt,
+}
+
+function loadCSV(path) {
+    const prmCsvRes = new Promise((resolve, reject) => {
+        const res = []
+        fs.createReadStream(path)
+            .pipe(csv())
+            .on('data', data => {
+                return res.push(data)
+            })
+            .on('end', () => {
+                resolve(res)
+            })
+            .on('error', err => {
+                reject(err)
+            })
+    })
+    return prmCsvRes
 }
 
 function readFileSync() {
@@ -22,7 +42,6 @@ function readFileAsync() {
 	})
 	console.log('after calling readFile')
 }
-
 
 function readJsonFile(path) {
     const str = fs.readFileSync(path, 'utf8')
