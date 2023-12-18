@@ -11,6 +11,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "cheerio": "^1.0.0-rc.12",
+    "csv-parser": "^3.0.0",
     "follow-redirects": "^1.15.3",
     "pdfkit": "^0.14.0"
   }
